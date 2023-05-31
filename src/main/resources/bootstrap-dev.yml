@@ -1,0 +1,84 @@
+server:
+  port: 7001
+  servlet:
+    context-path: /member
+  undertow:
+    threads:
+      io: 16
+      worker: 256
+    buffer-size: 1024
+    direct-buffers: true
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 10.0.13.9:8848,10.0.13.10:8848,10.0.13.11:8848
+        metadata:
+          management:
+            context-path: ${server.servlet.context-path}/actuator
+      config:
+        server-addr: 10.0.13.9:8848,10.0.13.10:8848,10.0.13.11:8848
+        file-extension: yaml
+
+dubbo:
+  application:
+    name: member-service
+    qos-enable: false
+    qos-accept-foreign-ip: false
+  scan:
+    base-packages: com.shanshan.member.dubbo
+  protocol:
+    name: dubbo
+    port: 17001
+  registry:
+    protocol: dubbo
+    address: nacos://10.0.13.9:8848
+    timeout: 3000
+    group: DUBBO_GROUP
+  consumer:
+    timeout: 5000
+    check: false
+
+seata:
+  tx-service-group: shanshan_tx_group
+  service:
+    vgroup-mapping:
+      shanshan_tx_group: default
+  registry:
+    type: nacos
+    nacos:
+      server-addr: 10.0.13.9:8848,10.0.13.10:8848,10.0.13.11:8848
+      application: seata-server
+      group: SEATA_GROUP
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: BASIC
+  okhttp:
+    enabled: true
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  typeAliasesPackage: com.shanshan.member.entity
+  global-config:
+    db-config:
+      id-type: AUTO
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+
+logging:
+  level:
+    root:  ERROR
+    org.springframework:  ERROR
+    org.mybatis:  DEBUG
+    com.shanshan:  DEBUG
+    com.shanshan.member.service.feign: DEBUG
+  config: classpath:logback-spring.xml
+  file:
+    path: /opt/logs/member-service/

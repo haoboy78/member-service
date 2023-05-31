@@ -1,0 +1,67 @@
+spring:
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          type: com.alibaba.druid.pool.DruidDataSource
+          username: ss-mall
+          password: SSmall@123
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://10.254.246.43:3306/shanshan-member?characterEncoding=utf8&useUnicode=true&useSSL=false&useTimezone=true&serverTimezone=GMT%2B8
+          druid:
+            initial-size: 5
+            max-active: 10
+            min-idle: 1
+            max-wait: 60000
+            pool-prepared-statements: true
+            validation-query: SELECT 1 FROM DUAL
+            validation-query-timeout: 10000
+            test-on-borrow: true
+            test-on-return: false
+            test-while-idle: true
+            time-between-eviction-runs-millis: 60000
+            min-evictable-idle-time-millis: 30000
+            connect-timeout: 60000
+            socket-timeout: 60000
+            filters: stat
+        slave_1:
+          type: com.alibaba.druid.pool.DruidDataSource
+          username: root
+          password: Double@123
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://10.0.13.39:3306/member?characterEncoding=utf8&useUnicode=true&useSSL=false&useTimezone=true&serverTimezone=GMT%2B8
+          druid:
+            initial-size: 5
+            max-active: 10
+            min-idle: 1
+            max-wait: 60000
+            pool-prepared-statements: false
+            validation-query: SELECT 1 FROM DUAL
+            validation-query-timeout: 10000
+            test-on-borrow: true
+            test-on-return: false
+            test-while-idle: true
+            time-between-eviction-runs-millis: 60000
+            min-evictable-idle-time-millis: 30000
+            connect-timeout: 60000
+            socket-timeout: 60000
+            filters: stat
+  redis:
+    host: 10.0.13.93
+    port: 6379
+    password: Red@#$mKD3!sA
+    timeout: 3000
+    lettuce:
+      pool:
+        max-idle: 500
+        min-idle: 5
+        max-active: 1000
+        max-wait: 10000
+
+sms:
+  huawei:
+    app-key: c38G7N7p96NyW1uL25MhB1pbalO3
+    app-secret: BNbndQSDmggbmlo6Wgcc1ayuVGGJ
+    sender: 8822012129920
+    url: https://smsapi.cn-north-4.myhuaweicloud.com:443
+    template-id: adb46c8b74f64969a6bddfb9b6a1d7e4
